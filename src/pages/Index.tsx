@@ -465,19 +465,12 @@ export default function Index() {
       <section className="py-12 px-6" id="timeline">
         <Section>
           <Ornament />
-          <div className="max-w-md mx-auto">
-            <p className="handwriting text-center text-xl mb-2" style={{ color: "var(--wine)" }}>Как пройдёт день</p>
-            <h2 className="serif text-center text-3xl font-light mb-8">Тайминг торжества</h2>
-            <div className="relative pl-8">
-              <div className="absolute left-3 top-2 bottom-2 w-px" style={{ background: "rgba(139,26,46,0.2)" }}></div>
-              {timeline.map((item, i) => (
-                <div key={i} className="relative mb-6 flex items-start gap-4">
-                  <div className="timeline-dot absolute -left-[14px] mt-1"></div>
-                  <div className="serif-sc text-xs tracking-wider pt-0.5 min-w-[52px]" style={{ color: "var(--wine)" }}>{item.time}</div>
-                  <div className="serif text-base">{item.event}</div>
-                </div>
-              ))}
-            </div>
+          <div className="max-w-lg mx-auto">
+            <img
+              src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/fe80f1a8-ca73-4dd2-aa70-08cb3cc69c7d.jpg"
+              alt="Тайминг торжества"
+              style={{ width: "100%", display: "block" }}
+            />
           </div>
         </Section>
       </section>
