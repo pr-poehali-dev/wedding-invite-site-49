@@ -1,0 +1,19 @@
+{
+  "tests": [
+    {
+      "name": "Save guest RSVP",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Тест Гостев", "attending": "yes", "guests_count": 2, "drinks": "Шампанское", "song": "Test Song", "dietary": ""},
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Get guests list",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}

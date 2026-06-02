@@ -231,6 +231,218 @@ function WishesSlider() {
   );
 }
 
+const RSVP_URL = "https://functions.poehali.dev/b1e3177d-2e57-4030-a063-26da713cd687";
+
+const drinks = ["Шампанское", "Белое вино", "Красное вино", "Виски", "Водка", "Джин", "Ром", "Не пью алкоголь"];
+
+const mono: React.CSSProperties = { fontFamily: "'Courier New', Courier, monospace" };
+
+function RsvpBlock() {
+  const [step, setStep] = useState<"intro" | "form" | "done">("intro");
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    attending: "",
+    guests_count: "1",
+    drinks: [] as string[],
+    song: "",
+    dietary: "",
+  });
+
+  const toggleDrink = (d: string) =>
+    setForm(f => ({
+      ...f,
+      drinks: f.drinks.includes(d) ? f.drinks.filter(x => x !== d) : [...f.drinks, d],
+    }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    await fetch(RSVP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...form, drinks: form.drinks.join(", ") }),
+    });
+    setLoading(false);
+    setStep("done");
+  };
+
+  if (step === "done") {
+    return (
+      <div className="max-w-lg mx-auto text-center py-10">
+        <p className="text-5xl mb-4">🥂</p>
+        <h2 className="handwriting" style={{ fontSize: "2.5rem", color: "var(--ink)" }}>Спасибо!</h2>
+        <p style={{ ...mono, fontSize: "1rem", marginTop: 12, opacity: 0.7 }}>Мы с нетерпением ждём вас 26 августа!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-lg mx-auto">
+      {/* Шапка с ангелочком */}
+      <div className="relative mb-4">
+        <div style={{ position: "absolute", top: 0, left: 0 }}>
+          <svg width="64" height="56" viewBox="0 0 120 100" fill="none">
+            <ellipse cx="60" cy="72" rx="14" ry="18" stroke="#8B1A2E" strokeWidth="2" fill="none"/>
+            <circle cx="60" cy="44" r="13" stroke="#8B1A2E" strokeWidth="2" fill="none"/>
+            <path d="M46 62 C22 52 8 36 26 26 C34 42 38 54 42 64Z" stroke="#8B1A2E" strokeWidth="1.8" fill="none"/>
+            <path d="M74 62 C98 52 112 36 94 26 C86 42 82 54 78 64Z" stroke="#8B1A2E" strokeWidth="1.8" fill="none"/>
+            <circle cx="54" cy="42" r="1.8" fill="#8B1A2E"/>
+            <circle cx="66" cy="42" r="1.8" fill="#8B1A2E"/>
+            <path d="M54 50 Q60 55 66 50" stroke="#8B1A2E" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
+            <line x1="72" y1="60" x2="95" y2="70" stroke="#8B1A2E" strokeWidth="1.5"/>
+            <path d="M88 64 L95 70 L86 72" stroke="#8B1A2E" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <h2 className="handwriting text-center" style={{ fontSize: "clamp(3rem, 10vw, 4.5rem)", color: "var(--ink)", lineHeight: 1.0, paddingTop: 4 }}>
+          Анкета<br />гостя
+        </h2>
+      </div>
+
+      {step === "intro" && (
+        <div className="text-center mt-8">
+          <p style={{ ...mono, fontSize: "clamp(0.8rem, 2.4vw, 0.95rem)", lineHeight: 1.85, marginBottom: 32, opacity: 0.85 }}>
+            Пожалуйста, подтвердите ваше<br />присутствие на нашей свадьбе до
+          </p>
+          <p style={{ ...mono, fontSize: "clamp(1.6rem, 6vw, 2.4rem)", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 40, color: "var(--ink)" }}>
+            26 АВГУСТА 2026
+          </p>
+          <button
+            onClick={() => setStep("form")}
+            style={{
+              display: "block",
+              width: "100%",
+              background: "var(--wine)",
+              color: "#fff",
+              ...mono,
+              fontSize: "0.9rem",
+              letterSpacing: "0.18em",
+              padding: "18px 24px",
+              border: "none",
+              cursor: "pointer",
+              transition: "background 0.2s",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = "#6B1222")}
+            onMouseLeave={e => (e.currentTarget.style.background = "var(--wine)")}
+          >
+            ПОДТВЕРДИТЬ
+          </button>
+        </div>
+      )}
+
+      {step === "form" && (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-7 mt-6">
+
+          {/* Имя */}
+          <div>
+            <p style={{ ...mono, fontSize: "0.85rem", letterSpacing: "0.12em", marginBottom: 10, fontWeight: 700 }}>ВАШЕ ИМЯ И ФАМИЛИЯ</p>
+            <input
+              className="wedding-input"
+              placeholder="Имя и Фамилия"
+              style={{ ...mono }}
+              value={form.name}
+              onChange={e => setForm({ ...form, name: e.target.value })}
+              required
+            />
+          </div>
+
+          {/* Придёте */}
+          <div>
+            <p style={{ ...mono, fontSize: "0.85rem", letterSpacing: "0.12em", marginBottom: 12, fontWeight: 700 }}>ПЛАНИРУЕТЕ ЛИ ВЫ ПРИСУТСТВОВАТЬ?</p>
+            {[["yes", "С удовольствием приду!"], ["no", "К сожалению, не смогу"]].map(([val, label]) => (
+              <label key={val} className="flex items-center gap-3 mb-3 cursor-pointer">
+                <span style={{
+                  width: 26, height: 26, borderRadius: 6, border: "2px solid #999",
+                  display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                  background: form.attending === val ? "var(--wine)" : "transparent",
+                  transition: "background 0.15s",
+                }}>
+                  {form.attending === val && <span style={{ color: "#fff", fontSize: 14 }}>✓</span>}
+                </span>
+                <input type="radio" name="attending" value={val} required
+                  checked={form.attending === val}
+                  onChange={e => setForm({ ...form, attending: e.target.value })}
+                  style={{ display: "none" }}
+                />
+                <span style={{ ...mono, fontSize: "0.95rem" }}>{label}</span>
+              </label>
+            ))}
+          </div>
+
+          {form.attending === "yes" && (
+            <>
+              {/* Кол-во гостей */}
+              <div>
+                <p style={{ ...mono, fontSize: "0.85rem", letterSpacing: "0.12em", marginBottom: 10, fontWeight: 700 }}>КОЛ-ВО ГОСТЕЙ (включая вас)</p>
+                <select className="wedding-input" style={{ ...mono }} value={form.guests_count}
+                  onChange={e => setForm({ ...form, guests_count: e.target.value })}>
+                  {["1","2","3","4","5"].map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
+              </div>
+
+              {/* Алкоголь */}
+              <div>
+                <p style={{ ...mono, fontSize: "0.85rem", letterSpacing: "0.12em", marginBottom: 12, fontWeight: 700 }}>ВАШИ ПРЕДПОЧТЕНИЯ</p>
+                {drinks.map(d => (
+                  <label key={d} className="flex items-center gap-3 mb-3 cursor-pointer">
+                    <span style={{
+                      width: 26, height: 26, borderRadius: 6, border: "2px solid #999",
+                      display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                      background: form.drinks.includes(d) ? "var(--wine)" : "transparent",
+                      transition: "background 0.15s",
+                    }}>
+                      {form.drinks.includes(d) && <span style={{ color: "#fff", fontSize: 14 }}>✓</span>}
+                    </span>
+                    <input type="checkbox" checked={form.drinks.includes(d)} onChange={() => toggleDrink(d)} style={{ display: "none" }} />
+                    <span style={{ ...mono, fontSize: "0.95rem" }}>{d}</span>
+                  </label>
+                ))}
+              </div>
+
+              {/* Любимая песня */}
+              <div>
+                <p style={{ ...mono, fontSize: "0.85rem", letterSpacing: "0.12em", marginBottom: 10, fontWeight: 700 }}>ЛЮБИМАЯ ПЕСНЯ ДЛЯ ТАНЦПОЛА</p>
+                <input className="wedding-input" style={{ ...mono }} placeholder="Название и исполнитель"
+                  value={form.song} onChange={e => setForm({ ...form, song: e.target.value })} />
+              </div>
+
+              {/* Пищевые */}
+              <div>
+                <p style={{ ...mono, fontSize: "0.85rem", letterSpacing: "0.12em", marginBottom: 10, fontWeight: 700 }}>ПИЩЕВЫЕ ОГРАНИЧЕНИЯ</p>
+                <input className="wedding-input" style={{ ...mono }} placeholder="Аллергия, вегетарианец и т.д."
+                  value={form.dietary} onChange={e => setForm({ ...form, dietary: e.target.value })} />
+              </div>
+            </>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              display: "block",
+              width: "100%",
+              background: "var(--wine)",
+              color: "#fff",
+              ...mono,
+              fontSize: "0.9rem",
+              letterSpacing: "0.18em",
+              padding: "18px 24px",
+              border: "none",
+              cursor: loading ? "wait" : "pointer",
+              opacity: loading ? 0.7 : 1,
+              transition: "background 0.2s",
+            }}
+            onMouseEnter={e => { if (!loading) e.currentTarget.style.background = "#6B1222"; }}
+            onMouseLeave={e => { if (!loading) e.currentTarget.style.background = "var(--wine)"; }}
+          >
+            {loading ? "ОТПРАВКА..." : "ПОДТВЕРДИТЬ"}
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
 export default function Index() {
   const countdown = useCountdown(WEDDING_DATE);
   const [wishes, setWishes] = useState("");
@@ -618,87 +830,7 @@ export default function Index() {
       <section className="py-12 px-6" id="rsvp">
         <Section>
           <Ornament />
-          <div className="max-w-lg mx-auto">
-            <p className="handwriting text-center text-xl mb-3" style={{ color: "var(--wine)" }}>Ждём вашего ответа</p>
-            <h2 className="serif text-center text-3xl font-light mb-2">Подтверждение присутствия</h2>
-            <p className="serif text-center text-base opacity-60 mb-8">Пожалуйста, заполните до 1 августа 2026</p>
-            {rsvpSent ? (
-              <div className="text-center py-8 bg-white shadow-md p-8">
-                <p className="text-4xl mb-4">🥂</p>
-                <p className="serif text-lg">Замечательно! Мы вас ждём.</p>
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => { e.preventDefault(); setRsvpSent(true); }}
-                className="bg-white p-8 shadow-md flex flex-col gap-5"
-                style={{ border: "1px solid rgba(139,26,46,0.1)" }}
-              >
-                <div className="flex flex-col gap-1">
-                  <label className="serif-sc text-xs tracking-wider opacity-60">ИМЯ И ФАМИЛИЯ</label>
-                  <input
-                    className="wedding-input"
-                    placeholder="Иван Петров"
-                    value={rsvp.name}
-                    onChange={e => setRsvp({ ...rsvp, name: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label className="serif-sc text-xs tracking-wider opacity-60">ВЫ ПРИДЁТЕ?</label>
-                  <div className="flex gap-6 flex-wrap">
-                    {[["yes", "Да, буду!"], ["no", "К сожалению, нет"]] .map(([val, label]) => (
-                      <label key={val} className="flex items-center gap-2 cursor-pointer serif text-base">
-                        <input
-                          type="radio"
-                          name="attending"
-                          value={val}
-                          checked={rsvp.attending === val}
-                          onChange={e => setRsvp({ ...rsvp, attending: e.target.value })}
-                          required
-                          style={{ accentColor: "var(--wine)" }}
-                        />
-                        {label}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <label className="serif-sc text-xs tracking-wider opacity-60">КОЛ-ВО ГОСТЕЙ</label>
-                  <select
-                    className="wedding-input"
-                    value={rsvp.guests}
-                    onChange={e => setRsvp({ ...rsvp, guests: e.target.value })}
-                  >
-                    {["1", "2", "3"].map(n => <option key={n} value={n}>{n}</option>)}
-                  </select>
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <label className="serif-sc text-xs tracking-wider opacity-60">ПИЩЕВЫЕ ОГРАНИЧЕНИЯ</label>
-                  <input
-                    className="wedding-input"
-                    placeholder="Вегетарианец, аллергия и т.д."
-                    value={rsvp.dietary}
-                    onChange={e => setRsvp({ ...rsvp, dietary: e.target.value })}
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <label className="serif-sc text-xs tracking-wider opacity-60">ЛЮБИМАЯ ПЕСНЯ ДЛЯ ТАНЦПОЛА</label>
-                  <input
-                    className="wedding-input"
-                    placeholder="Название и исполнитель"
-                    value={rsvp.song}
-                    onChange={e => setRsvp({ ...rsvp, song: e.target.value })}
-                  />
-                </div>
-
-                <button type="submit" className="wedding-btn mt-2">Подтвердить присутствие</button>
-              </form>
-            )}
-          </div>
+          <RsvpBlock />
         </Section>
       </section>
 
