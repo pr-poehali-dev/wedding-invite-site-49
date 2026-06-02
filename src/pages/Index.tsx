@@ -706,21 +706,48 @@ export default function Index() {
       <section className="py-12 px-6" id="gallery">
         <Section>
           <Ornament />
-          <p className="handwriting text-center text-xl mb-3" style={{ color: "var(--wine)" }}>Наша история</p>
-          <h2 className="serif text-center text-3xl font-light mb-8">Фотогалерея</h2>
-          <div className="max-w-2xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-4">
-            {galleryImages.map((item, i) => (
-              <div
-                key={i}
-                className="gallery-item polaroid"
-                style={{ transform: `rotate(${(i % 3 - 1) * 1.5}deg)`, transition: "transform 0.3s" }}
-                onMouseEnter={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1.04)")}
-                onMouseLeave={e => (e.currentTarget.style.transform = `rotate(${(i % 3 - 1) * 1.5}deg)`)}
-              >
-                <img src={item.src} alt={item.label} style={{ width: "100%", height: 160, objectFit: "cover", display: "block" }} />
-                <span className="polaroid-label handwriting text-sm">{item.label}</span>
+          <div className="max-w-sm mx-auto text-center">
+            {/* Заголовок */}
+            <p className="serif-sc text-xs tracking-widest opacity-50 mb-2">До скорой встречи! С любовью</p>
+            <h2 className="handwriting mb-8" style={{ fontSize: "clamp(2.8rem, 10vw, 4.5rem)", color: "var(--ink)", lineHeight: 1.05 }}>
+              Богдан<br /><span style={{ color: "var(--wine)" }}>&amp; Эльвира</span>
+            </h2>
+
+            {/* Поляроид со скрепкой */}
+            <div className="relative inline-block">
+              {/* Скрепка */}
+              <div style={{ display: "flex", justifyContent: "center", position: "relative", zIndex: 10, marginBottom: -6 }}>
+                <svg width="22" height="36" viewBox="0 0 22 36" fill="none">
+                  <path d="M11 2 L11 34 M7 2 Q3 2 3 8 L3 28 Q3 34 11 34 Q19 34 19 28 L19 8 Q19 2 15 2 L7 2Z" stroke="#c8a882" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
+                </svg>
               </div>
-            ))}
+              {/* Фото в рамке поляроида */}
+              <div
+                style={{
+                  background: "#fff",
+                  padding: "10px 10px 52px 10px",
+                  boxShadow: "0 6px 32px rgba(0,0,0,0.16)",
+                  transform: "rotate(-2deg)",
+                  transition: "transform 0.3s",
+                  display: "inline-block",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1.02)")}
+                onMouseLeave={e => (e.currentTarget.style.transform = "rotate(-2deg)")}
+              >
+                <img
+                  src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/19b579fa-4673-4e6f-9e9a-a9ca4a6c365a.jpg"
+                  alt="Богдан и Эльвира"
+                  style={{ width: 280, height: 320, objectFit: "cover", display: "block" }}
+                />
+              </div>
+            </div>
+
+            {/* Сердечко */}
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8, paddingRight: 16 }}>
+              <svg width="44" height="40" viewBox="0 0 48 44" fill="none">
+                <path d="M24 38 C24 38 4 26 4 13 C4 7 8.5 3 14 3 C18 3 22 5.5 24 9 C26 5.5 30 3 34 3 C39.5 3 44 7 44 13 C44 26 24 38 24 38Z" fill="#8B1A2E" opacity="0.85"/>
+              </svg>
+            </div>
           </div>
         </Section>
       </section>
