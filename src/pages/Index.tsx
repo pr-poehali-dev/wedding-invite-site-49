@@ -479,22 +479,17 @@ export default function Index() {
       <section className="py-12 px-6" id="dresscode">
         <Section>
           <Ornament />
-          <div className="max-w-lg mx-auto text-center">
-            <p className="handwriting text-xl mb-3" style={{ color: "var(--wine)" }}>Как одеться</p>
-            <h2 className="serif text-3xl font-light mb-4">Дресс-код</h2>
-            <p className="serif text-base opacity-70 mb-8 leading-relaxed">
-              Мы будем рады, если вы поддержите нашу палитру — нежные тёплые оттенки.<br />
-              Пожалуйста, избегайте белого и чёрного цвета.
-            </p>
-            <div className="flex justify-center gap-5 flex-wrap mb-6">
-              {dresscodes.map(({ color, name }) => (
-                <div key={name} className="flex flex-col items-center gap-2">
-                  <div className="color-swatch" style={{ background: color }}></div>
-                  <span className="serif text-xs opacity-60">{name}</span>
-                </div>
-              ))}
-            </div>
-            <p className="handwriting text-sm opacity-50">«Элегантно и нежно — именно так»</p>
+          <div className="max-w-lg mx-auto flex flex-col gap-4">
+            <img
+              src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/3a726b99-01e3-4c66-9ac0-75f6850c4b00.jpg"
+              alt="Дресс-код"
+              style={{ width: "100%", display: "block" }}
+            />
+            <img
+              src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/6e9e8fca-edd3-494f-9970-1f163728ab28.jpg"
+              alt="Дресс-код мужской"
+              style={{ width: "100%", display: "block" }}
+            />
           </div>
         </Section>
       </section>
