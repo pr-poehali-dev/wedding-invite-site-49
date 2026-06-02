@@ -252,12 +252,85 @@ export default function Index() {
       <section className="py-16 px-6" id="date">
         <Section>
           <Ornament />
-          <div className="max-w-lg mx-auto text-center">
-            <p className="handwriting text-xl mb-4" style={{ color: "var(--wine)" }}>Запомните эту дату</p>
-            <h2 className="serif text-4xl font-light mb-6">26 · 08 · 2026</h2>
-            <p className="serif text-lg font-light leading-relaxed opacity-80">
-              В этот день мы скажем друг другу «да» — и хотим разделить это счастье с вами, нашими самыми близкими людьми.
+          <div className="max-w-lg mx-auto">
+            {/* Заголовок — рукописный как на референсе */}
+            <h2 className="handwriting text-center mb-6" style={{ fontSize: "clamp(2.6rem, 9vw, 4.5rem)", color: "var(--ink)", lineHeight: 1.1 }}>
+              Дорогие друзья!
+            </h2>
+            {/* Текст печатной машинкой */}
+            <p className="text-center mb-12 leading-relaxed" style={{
+              fontFamily: "'Courier New', Courier, monospace",
+              fontSize: "clamp(0.8rem, 2.5vw, 1rem)",
+              color: "var(--ink)",
+              letterSpacing: "0.04em",
+              opacity: 0.85,
+            }}>
+              Это официальное приглашение на нашу свадьбу!<br />
+              А получили вы его потому, что мы очень<br />
+              хотим видеть вас в этот день рядом с нами!
             </p>
+
+            {/* Цифры даты столбиком с пометками */}
+            <div className="relative flex justify-center">
+              {/* Левая пометка */}
+              <div className="absolute left-0 bottom-8 flex flex-col items-start">
+                <p className="handwriting" style={{ fontSize: "1.4rem", color: "var(--wine)", transform: "rotate(-4deg)", lineHeight: 1.2 }}>
+                  Сохраните<br />дату
+                </p>
+                <svg width="50" height="28" viewBox="0 0 50 28" fill="none" style={{ marginTop: 2, marginLeft: 20 }}>
+                  <path d="M2 4 Q12 16 30 18 Q42 19 48 24" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+                  <path d="M42 20 L48 24 L44 28" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+
+              {/* Правая пометка */}
+              <div className="absolute right-0 top-4 flex flex-col items-end">
+                <p className="handwriting" style={{ fontSize: "1.4rem", color: "var(--wine)", transform: "rotate(3deg)", lineHeight: 1.2, textAlign: "right" }}>
+                  Ждём вас в<br />наш день!
+                </p>
+                <svg width="44" height="28" viewBox="0 0 44 28" fill="none" style={{ marginTop: 2, marginRight: 16 }}>
+                  <path d="M42 4 Q30 14 16 18 Q8 20 4 24" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+                  <path d="M4 24 Q10 16 14 22" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+                </svg>
+              </div>
+
+              {/* Цифры столбиком */}
+              <div className="flex flex-col items-center" style={{ gap: 0 }}>
+                {/* 26 */}
+                <span style={{
+                  fontFamily: "'Caveat', cursive",
+                  fontSize: "clamp(5rem, 18vw, 9rem)",
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  lineHeight: 0.95,
+                  letterSpacing: "-0.02em",
+                }}>26</span>
+                {/* разделитель */}
+                <span style={{ fontFamily: "'Caveat', cursive", fontSize: "2.5rem", color: "var(--ink)", opacity: 0.5, lineHeight: 0.8 }}>|</span>
+                {/* 08 */}
+                <span style={{
+                  fontFamily: "'Caveat', cursive",
+                  fontSize: "clamp(5rem, 18vw, 9rem)",
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  lineHeight: 0.95,
+                  letterSpacing: "-0.02em",
+                }}>08</span>
+                {/* разделитель */}
+                <span style={{ fontFamily: "'Caveat', cursive", fontSize: "2.5rem", color: "var(--ink)", opacity: 0.5, lineHeight: 0.8 }}>|</span>
+                {/* 26 */}
+                <span style={{
+                  fontFamily: "'Caveat', cursive",
+                  fontSize: "clamp(5rem, 18vw, 9rem)",
+                  fontWeight: 700,
+                  color: "var(--ink)",
+                  lineHeight: 0.95,
+                  letterSpacing: "-0.02em",
+                }}>26</span>
+                {/* нижний разделитель */}
+                <span style={{ fontFamily: "'Caveat', cursive", fontSize: "2.5rem", color: "var(--ink)", opacity: 0.5, lineHeight: 0.8 }}>|</span>
+              </div>
+            </div>
           </div>
         </Section>
       </section>
