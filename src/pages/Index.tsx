@@ -354,25 +354,23 @@ export default function Index() {
             {/* Два поляроида рядом — жених слева, невеста справа */}
             <div className="flex justify-center gap-4">
 
-              {/* Жених — наклон влево */}
+              {/* Невеста — наклон влево */}
               <div style={{ transform: "rotate(-4deg)", transition: "transform 0.3s", flexShrink: 0 }}
                 onMouseEnter={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1.03)")}
                 onMouseLeave={e => (e.currentTarget.style.transform = "rotate(-4deg)")}
               >
-                <div style={{ background: "#fff", padding: "8px 8px 44px 8px", boxShadow: "0 4px 22px rgba(0,0,0,0.15)", width: 210 }}>
-                  <img src={GROOM_CHILD} alt="Маленький Богдан" style={{ width: "100%", height: 250, objectFit: "cover", objectPosition: "top", display: "block" }} />
-                  <span className="polaroid-label handwriting" style={{ fontSize: "0.9rem" }}>маленький жених</span>
+                <div style={{ background: "#fff", padding: "8px 8px 20px 8px", boxShadow: "0 4px 22px rgba(0,0,0,0.15)", width: 210 }}>
+                  <img src={BRIDE_CHILD} alt="Маленькая Эльвира" style={{ width: "100%", height: 250, objectFit: "cover", objectPosition: "top", display: "block" }} />
                 </div>
               </div>
 
-              {/* Невеста — наклон вправо */}
+              {/* Жених — наклон вправо */}
               <div style={{ transform: "rotate(3.5deg)", transition: "transform 0.3s", flexShrink: 0, marginTop: 32 }}
                 onMouseEnter={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1.03)")}
                 onMouseLeave={e => (e.currentTarget.style.transform = "rotate(3.5deg)")}
               >
-                <div style={{ background: "#fff", padding: "8px 8px 44px 8px", boxShadow: "0 4px 22px rgba(0,0,0,0.15)", width: 210 }}>
-                  <img src={BRIDE_CHILD} alt="Маленькая Эльвира" style={{ width: "100%", height: 250, objectFit: "cover", objectPosition: "top", display: "block" }} />
-                  <span className="polaroid-label handwriting" style={{ fontSize: "0.9rem" }}>маленькая невеста</span>
+                <div style={{ background: "#fff", padding: "8px 8px 20px 8px", boxShadow: "0 4px 22px rgba(0,0,0,0.15)", width: 210 }}>
+                  <img src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/8391e7ce-d08a-406e-b202-d6171611e2f6.jpg" alt="Маленький Богдан" style={{ width: "100%", height: 250, objectFit: "cover", objectPosition: "top", display: "block" }} />
                 </div>
               </div>
             </div>
