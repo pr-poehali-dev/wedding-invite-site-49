@@ -4,8 +4,8 @@ import Icon from "@/components/ui/icon";
 const WEDDING_DATE = new Date("2026-08-26T14:00:00");
 
 const COUPLE_PHOTO = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/d0b921d3-db34-4d68-917a-982349ade069.jpg";
-const BRIDE_CHILD = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/files/302d338f-d604-4f42-990b-a0b3d2f7ed4b.jpg";
-const GROOM_CHILD = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/files/b5ace827-8178-4033-83ce-e52d7012bb22.jpg";
+const BRIDE_CHILD = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/2765b74f-42c8-45ad-9c07-5afbd85f400d.jpg";
+const GROOM_CHILD = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/c63801be-650d-413e-9c9a-7ec9fb61c821.jpg";
 
 function useCountdown(target: Date) {
   const calc = () => {
@@ -346,19 +346,101 @@ export default function Index() {
       </section>
 
       {/* ── ДЕТСКИЕ ФОТО ── */}
-      <section className="py-12 px-6" id="childhood">
+      <section className="py-16 px-6" id="childhood">
         <Section>
           <Ornament />
-          <p className="handwriting text-center text-2xl mb-10" style={{ color: "var(--wine)" }}>Мы были такими маленькими...</p>
-          <div className="flex flex-wrap justify-center gap-12">
-            <div className="flex flex-col items-center gap-3">
-              <PolaroidCard src={GROOM_CHILD} label="Маленький Богдан" rotate={-3} />
-              <p className="handwriting text-sm opacity-60">«Будущий жених»</p>
+          {/* Контейнер с относительным позиционированием */}
+          <div className="relative mx-auto" style={{ maxWidth: 480, minHeight: 560 }}>
+
+            {/* Ангелочек — сверху справа */}
+            <div style={{ position: "absolute", top: 0, right: 16, zIndex: 10 }}>
+              <svg width="80" height="70" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="60" cy="72" rx="14" ry="18" stroke="#8B1A2E" strokeWidth="2" fill="none"/>
+                <circle cx="60" cy="44" r="13" stroke="#8B1A2E" strokeWidth="2" fill="none"/>
+                {/* Левое крыло */}
+                <path d="M46 62 C22 52 8 36 26 26 C34 42 38 54 42 64Z" stroke="#8B1A2E" strokeWidth="1.8" fill="none"/>
+                <path d="M26 26 C28 38 32 48 37 60" stroke="#8B1A2E" strokeWidth="1" opacity="0.5"/>
+                <path d="M18 36 C22 46 26 54 31 62" stroke="#8B1A2E" strokeWidth="1" opacity="0.4"/>
+                {/* Правое крыло */}
+                <path d="M74 62 C98 52 112 36 94 26 C86 42 82 54 78 64Z" stroke="#8B1A2E" strokeWidth="1.8" fill="none"/>
+                <path d="M94 26 C92 38 88 48 83 60" stroke="#8B1A2E" strokeWidth="1" opacity="0.5"/>
+                <path d="M102 36 C98 46 94 54 89 62" stroke="#8B1A2E" strokeWidth="1" opacity="0.4"/>
+                {/* Глаза */}
+                <circle cx="54" cy="42" r="1.8" fill="#8B1A2E"/>
+                <circle cx="66" cy="42" r="1.8" fill="#8B1A2E"/>
+                {/* Улыбка */}
+                <path d="M54 50 Q60 55 66 50" stroke="#8B1A2E" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
+              </svg>
             </div>
-            <div className="flex flex-col items-center gap-3">
-              <PolaroidCard src={BRIDE_CHILD} label="Маленькая Эльвира" rotate={2.5} />
-              <p className="handwriting text-sm opacity-60">«Будущая невеста»</p>
+
+            {/* Сердечко — слева внизу */}
+            <div style={{ position: "absolute", left: 0, bottom: 80, zIndex: 10 }}>
+              <svg width="48" height="44" viewBox="0 0 48 44" fill="none">
+                <path d="M24 38 C24 38 4 26 4 13 C4 7 8.5 3 14 3 C18 3 22 5.5 24 9 C26 5.5 30 3 34 3 C39.5 3 44 7 44 13 C44 26 24 38 24 38Z" fill="#8B1A2E" opacity="0.85"/>
+              </svg>
             </div>
+
+            {/* Фото невесты — сверху слева, наклонено влево */}
+            <div style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              transform: "rotate(-6deg)",
+              zIndex: 5,
+              transition: "transform 0.3s",
+            }}
+              onMouseEnter={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1.03)")}
+              onMouseLeave={e => (e.currentTarget.style.transform = "rotate(-6deg)")}
+            >
+              {/* Скрепка */}
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: -4, position: "relative", zIndex: 6 }}>
+                <svg width="28" height="32" viewBox="0 0 28 32" fill="none">
+                  <path d="M14 2 L14 30 M10 2 Q6 2 6 8 L6 26 Q6 30 14 30 Q22 30 22 26 L22 8 Q22 2 18 2 L10 2Z" stroke="#aaa" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <div style={{ background: "#fff", padding: "8px 8px 40px 8px", boxShadow: "0 4px 20px rgba(0,0,0,0.14)", width: 220 }}>
+                <img src={BRIDE_CHILD} alt="Эльвира в детстве" style={{ width: "100%", height: 240, objectFit: "cover", objectPosition: "top", display: "block" }} />
+                <span className="polaroid-label handwriting" style={{ fontSize: "0.85rem" }}>Маленькая Эльвира</span>
+              </div>
+            </div>
+
+            {/* Фото жениха — снизу справа, наклонено вправо */}
+            <div style={{
+              position: "absolute",
+              bottom: 0,
+              right: 0,
+              transform: "rotate(4deg)",
+              zIndex: 6,
+              transition: "transform 0.3s",
+            }}
+              onMouseEnter={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1.03)")}
+              onMouseLeave={e => (e.currentTarget.style.transform = "rotate(4deg)")}
+            >
+              {/* Скрепка */}
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: -4, position: "relative", zIndex: 7 }}>
+                <svg width="28" height="32" viewBox="0 0 28 32" fill="none">
+                  <path d="M14 2 L14 30 M10 2 Q6 2 6 8 L6 26 Q6 30 14 30 Q22 30 22 26 L22 8 Q22 2 18 2 L10 2Z" stroke="#aaa" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <div style={{ background: "#fff", padding: "8px 8px 40px 8px", boxShadow: "0 4px 20px rgba(0,0,0,0.14)", width: 220 }}>
+                <img src={GROOM_CHILD} alt="Богдан в детстве" style={{ width: "100%", height: 240, objectFit: "cover", objectPosition: "top", display: "block" }} />
+                <span className="polaroid-label handwriting" style={{ fontSize: "0.85rem" }}>Маленький Богдан</span>
+              </div>
+            </div>
+
+            {/* Надпись «Разделите с нами этот момент» — снизу справа */}
+            <div style={{ position: "absolute", bottom: 20, right: -10, zIndex: 10, textAlign: "right" }}>
+              <p className="handwriting" style={{
+                fontSize: "1.5rem",
+                color: "var(--wine)",
+                lineHeight: 1.2,
+                transform: "rotate(-2deg)",
+                display: "inline-block",
+              }}>
+                Разделите с нами<br />этот момент
+              </p>
+            </div>
+
           </div>
         </Section>
       </section>
