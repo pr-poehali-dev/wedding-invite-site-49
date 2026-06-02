@@ -138,68 +138,83 @@ const galleryImages = [
   { src: GROOM_CHILD, label: "он" },
 ];
 
-const wishSlides = [
-  "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/31dc767d-b912-448a-bb46-084390c77fde.jpg",
-  "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/99ef0f4f-a3cb-44f5-bfdd-30182fd13a58.jpg",
-  "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/7ed76682-5d9b-4c74-beba-7d2ba659b79a.jpg",
+const wishTexts = [
+  "Мы с теплотой относимся к детям любого возраста. Но для свадьбы выбрали формат 18+.",
+  "Пожалуйста, не дарите нам цветы! Мы не успеем насладиться их красотой и ароматом. Если хотите подарить нам ценный и нужный подарок, мы будем очень благодарны за вклад в бюджет нашей молодой семьи.",
+  "Будем очень признательны, если Вы воздержитесь от криков «Горько». Ведь поцелуй — это знак выражения чувств, и он не может быть по заказу.",
 ];
 
 function WishesSlider() {
   const [current, setCurrent] = useState(0);
-  const prev = () => setCurrent(i => (i - 1 + wishSlides.length) % wishSlides.length);
-  const next = () => setCurrent(i => (i + 1) % wishSlides.length);
+  const [animating, setAnimating] = useState(false);
+
+  const go = (next: number) => {
+    if (animating) return;
+    setAnimating(true);
+    setTimeout(() => {
+      setCurrent(next);
+      setAnimating(false);
+    }, 250);
+  };
+  const prev = () => go((current - 1 + wishTexts.length) % wishTexts.length);
+  const next = () => go((current + 1) % wishTexts.length);
 
   return (
-    <div className="max-w-lg mx-auto relative">
-      <img
-        key={current}
-        src={wishSlides[current]}
-        alt={`Пожелание ${current + 1}`}
-        style={{ width: "100%", display: "block", transition: "opacity 0.3s" }}
-      />
-      {/* Стрелки */}
-      <button
-        onClick={prev}
-        aria-label="Назад"
-        style={{
-          position: "absolute",
-          left: -20,
-          top: "50%",
-          transform: "translateY(-50%)",
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: 8,
-        }}
-      >
-        <svg width="36" height="20" viewBox="0 0 36 20" fill="none">
-          <path d="M34 10 L4 10 M12 2 L2 10 L12 18" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <div className="max-w-lg mx-auto">
+      {/* Заголовок — статичный */}
+      <div className="relative mb-2">
+        <p className="handwriting" style={{ color: "var(--wine)", fontSize: "1.2rem", position: "absolute", top: 0, left: 0 }}>
+          Мы бы<br />хотели...
+        </p>
+        <svg width="44" height="30" viewBox="0 0 44 30" fill="none" style={{ position: "absolute", top: 8, left: 90 }}>
+          <path d="M2 4 Q14 20 30 22 Q38 23 42 26" stroke="#8B1A2E" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
+          <path d="M36 22 L42 26 L38 30" stroke="#8B1A2E" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
-      </button>
-      <button
-        onClick={next}
-        aria-label="Вперёд"
-        style={{
-          position: "absolute",
-          right: -20,
-          top: "50%",
-          transform: "translateY(-50%)",
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: 8,
-        }}
-      >
-        <svg width="36" height="20" viewBox="0 0 36 20" fill="none">
-          <path d="M2 10 L32 10 M24 2 L34 10 L24 18" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
+        <h2 className="handwriting text-center" style={{ fontSize: "clamp(2.4rem, 8vw, 3.8rem)", color: "var(--ink)", paddingTop: 48, lineHeight: 1.1 }}>
+          Пожелания
+        </h2>
+      </div>
+
+      {/* Текст + стрелки */}
+      <div className="relative flex items-center gap-4 mt-8" style={{ minHeight: 160 }}>
+        {/* Стрелка влево */}
+        <button onClick={prev} aria-label="Назад" style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: "4px 0" }}>
+          <svg width="36" height="20" viewBox="0 0 36 20" fill="none">
+            <path d="M34 10 L4 10 M12 2 L2 10 L12 18" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+
+        {/* Текст */}
+        <p
+          key={current}
+          style={{
+            fontFamily: "'Courier New', Courier, monospace",
+            fontSize: "clamp(0.8rem, 2.4vw, 1rem)",
+            color: "var(--ink)",
+            lineHeight: 1.85,
+            textAlign: "center",
+            opacity: animating ? 0 : 1,
+            transition: "opacity 0.25s ease",
+            flex: 1,
+          }}
+        >
+          {wishTexts[current]}
+        </p>
+
+        {/* Стрелка вправо */}
+        <button onClick={next} aria-label="Вперёд" style={{ background: "none", border: "none", cursor: "pointer", flexShrink: 0, padding: "4px 0" }}>
+          <svg width="36" height="20" viewBox="0 0 36 20" fill="none">
+            <path d="M2 10 L32 10 M24 2 L34 10 L24 18" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
       {/* Точки-индикаторы */}
-      <div className="flex justify-center gap-2 mt-4">
-        {wishSlides.map((_, i) => (
+      <div className="flex justify-center gap-2 mt-6">
+        {wishTexts.map((_, i) => (
           <button
             key={i}
-            onClick={() => setCurrent(i)}
+            onClick={() => go(i)}
             style={{
               width: 8, height: 8,
               borderRadius: "50%",
