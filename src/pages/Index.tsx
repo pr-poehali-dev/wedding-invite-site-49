@@ -3,7 +3,7 @@ import Icon from "@/components/ui/icon";
 
 const WEDDING_DATE = new Date("2026-08-26T14:00:00");
 
-const COUPLE_PHOTO = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/files/0d82acde-df53-4901-8567-51433fa0b97b.jpg";
+const COUPLE_PHOTO = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/e614a56b-63b5-4b83-9da0-043ba5cdd3df.jpg";
 const BRIDE_CHILD = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/files/302d338f-d604-4f42-990b-a0b3d2f7ed4b.jpg";
 const GROOM_CHILD = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/files/b5ace827-8178-4033-83ce-e52d7012bb22.jpg";
 
@@ -146,45 +146,160 @@ export default function Index() {
   const [rsvpSent, setRsvpSent] = useState(false);
   const [rsvp, setRsvp] = useState({ name: "", attending: "", guests: "1", dietary: "", song: "" });
 
+  const heroRef = useRef<HTMLElement>(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const photoEject = Math.min(scrollY * 0.55, 260);
+
   return (
     <div className="min-h-screen" style={{ background: "var(--paper)" }}>
 
       {/* ── HERO ── */}
-      <section className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6 py-16">
-        <div className="fade-in-up text-center mb-8">
-          <p className="handwriting text-xl mb-4" style={{ color: "var(--wine)" }}>Это мы ↓</p>
-          <div
-            className="polaroid mx-auto"
-            style={{ transform: "rotate(-1.5deg)", transition: "transform 0.3s" }}
-            onMouseEnter={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1.03)")}
-            onMouseLeave={e => (e.currentTarget.style.transform = "rotate(-1.5deg)")}
-          >
-            <img src={COUPLE_PHOTO} alt="Богдан и Эльвира" style={{ width: 280, height: 280, objectFit: "cover", display: "block" }} />
-            <span className="polaroid-label">Богдан & Эльвира</span>
+      <section ref={heroRef} className="min-h-screen flex flex-col items-center relative overflow-hidden px-6 pt-10 pb-16">
+
+        {/* Заголовок — самый верх */}
+        <div className="fade-in-up text-center mt-2 mb-6 z-10">
+          <h1 className="handwriting" style={{ fontSize: "clamp(2.6rem, 10vw, 5.5rem)", lineHeight: 1.05, color: "var(--ink)" }}>
+            Богдан<br /><span style={{ color: "var(--wine)" }}>&amp; Эльвира</span>
+          </h1>
+          <p className="serif-sc text-xs tracking-[0.22em] mt-3 opacity-50">ПРИГЛАШАЮТ ВАС НА СВОЮ СВАДЬБУ</p>
+        </div>
+
+        {/* Поляроид с выезжающим фото */}
+        <div className="fade-in-up delay-200 relative mx-auto" style={{ width: 280 }}>
+
+          {/* Ангелочек слева сверху */}
+          <div style={{
+            position: "absolute",
+            left: -80,
+            top: -10,
+            animation: "angel-sway 3s ease-in-out infinite",
+            transformOrigin: "top center",
+            zIndex: 20,
+          }}>
+            <svg width="72" height="72" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.85 }}>
+              {/* Body */}
+              <ellipse cx="60" cy="78" rx="18" ry="22" stroke="#8B1A2E" strokeWidth="2.2" fill="none"/>
+              {/* Head */}
+              <circle cx="60" cy="48" r="16" stroke="#8B1A2E" strokeWidth="2.2" fill="none"/>
+              {/* Halo */}
+              <ellipse cx="60" cy="30" rx="14" ry="5" stroke="#8B1A2E" strokeWidth="1.8" fill="none"/>
+              {/* Left wing */}
+              <path d="M42 68 C20 55 10 38 28 30 C36 46 40 58 42 68Z" stroke="#8B1A2E" strokeWidth="2" fill="none"/>
+              {/* Right wing */}
+              <path d="M78 68 C100 55 110 38 92 30 C84 46 80 58 78 68Z" stroke="#8B1A2E" strokeWidth="2" fill="none"/>
+              {/* Wing feather lines left */}
+              <path d="M28 30 C30 42 34 52 38 62" stroke="#8B1A2E" strokeWidth="1" opacity="0.5"/>
+              <path d="M20 40 C24 50 28 58 33 66" stroke="#8B1A2E" strokeWidth="1" opacity="0.5"/>
+              {/* Wing feather lines right */}
+              <path d="M92 30 C90 42 86 52 82 62" stroke="#8B1A2E" strokeWidth="1" opacity="0.5"/>
+              <path d="M100 40 C96 50 92 58 87 66" stroke="#8B1A2E" strokeWidth="1" opacity="0.5"/>
+              {/* Eyes */}
+              <circle cx="54" cy="46" r="2" fill="#8B1A2E"/>
+              <circle cx="66" cy="46" r="2" fill="#8B1A2E"/>
+              {/* Smile */}
+              <path d="M54 55 Q60 60 66 55" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+              {/* Arms */}
+              <path d="M42 80 Q35 90 38 100" stroke="#8B1A2E" strokeWidth="2" fill="none" strokeLinecap="round"/>
+              <path d="M78 80 Q85 90 82 100" stroke="#8B1A2E" strokeWidth="2" fill="none" strokeLinecap="round"/>
+              {/* Heart in hands */}
+              <path d="M38 100 Q40 95 43 100 Q46 95 48 100 Q43 107 38 100Z" stroke="#8B1A2E" strokeWidth="1.5" fill="none"/>
+            </svg>
+          </div>
+
+          {/* «Это мы» подпись слева */}
+          <div style={{
+            position: "absolute",
+            left: -90,
+            top: "50%",
+            transform: "translateY(-10px)",
+            zIndex: 20,
+          }}>
+            <p className="handwriting" style={{ color: "var(--wine)", fontSize: "1.3rem", transform: "rotate(-8deg)" }}>Это мы</p>
+            <svg width="55" height="30" viewBox="0 0 55 30" fill="none" style={{ marginTop: 2 }}>
+              <path d="M5 5 Q10 20 30 18 Q45 16 50 24" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+              <path d="M44 20 L50 24 L46 28" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+
+          {/* Корпус поляроида */}
+          <div style={{
+            background: "#f0eeea",
+            borderRadius: "12px 12px 6px 6px",
+            padding: "14px 14px 0 14px",
+            boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1)",
+            position: "relative",
+            zIndex: 10,
+          }}>
+            {/* Видоискатель и объектив */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, padding: "0 4px" }}>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                {/* Вспышка */}
+                <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg,#ddd,#bbb)", border: "3px solid #aaa", boxShadow: "inset 0 1px 3px rgba(255,255,255,0.8)" }}/>
+                {/* Красная кнопка */}
+                <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#cc2233", boxShadow: "0 2px 4px rgba(0,0,0,0.3)" }}/>
+              </div>
+              {/* Объектив */}
+              <div style={{ width: 68, height: 68, borderRadius: "50%", background: "radial-gradient(circle at 35% 35%, #1a3a6b, #0a0a1a)", border: "4px solid #555", boxShadow: "0 4px 12px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.1)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                <div style={{ width: 42, height: 42, borderRadius: "50%", background: "radial-gradient(circle at 40% 35%, #2255aa, #050510)", border: "2px solid #333" }}/>
+              </div>
+              {/* Видоискатель */}
+              <div style={{ width: 28, height: 22, background: "#111", borderRadius: 4, border: "2px solid #555" }}/>
+            </div>
+            {/* Название */}
+            <p style={{ fontFamily: "Georgia, serif", fontSize: "0.7rem", color: "#888", letterSpacing: "0.12em", textAlign: "center", marginBottom: 8 }}>polaroid</p>
+
+            {/* Слот выхода — обрезает фото */}
+            <div style={{
+              overflow: "hidden",
+              height: 18,
+              borderRadius: "0 0 2px 2px",
+              background: "#e8e4de",
+            }}/>
+          </div>
+
+          {/* Фото выезжает вниз из поляроида при скролле */}
+          <div style={{
+            position: "relative",
+            zIndex: 5,
+            marginTop: 0,
+            transform: `translateY(${-260 + photoEject}px)`,
+            transition: "transform 0.05s linear",
+          }}>
+            <div style={{
+              background: "#fff",
+              padding: "8px 8px 44px 8px",
+              boxShadow: "0 6px 24px rgba(0,0,0,0.15)",
+              width: 280,
+            }}>
+              <img
+                src={COUPLE_PHOTO}
+                alt="Богдан и Эльвира"
+                style={{ width: "100%", height: 264, objectFit: "cover", display: "block" }}
+              />
+              <span className="polaroid-label handwriting" style={{ fontSize: "1rem" }}>Богдан &amp; Эльвира</span>
+            </div>
           </div>
         </div>
 
-        <div className="fade-in-up delay-300 text-center">
-          <h1 className="serif" style={{ fontSize: "clamp(2.8rem, 8vw, 5rem)", fontWeight: 300, letterSpacing: "0.04em", lineHeight: 1.1, color: "var(--ink)" }}>
-            Богдан <span style={{ color: "var(--wine)", fontStyle: "italic" }}>&</span> Эльвира
-          </h1>
-          <p className="serif-sc text-sm tracking-[0.25em] mt-4 opacity-60">ПРИГЛАШАЮТ ВАС НА СВОЮ СВАДЬБУ</p>
+        {/* Дата */}
+        <div className="fade-in-up delay-500 mt-8 text-center" style={{ position: "relative", zIndex: 10 }}>
+          <p className="serif font-light" style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)", color: "var(--wine)" }}>26 августа 2026</p>
+          <p className="handwriting text-base mt-1 opacity-60">Заокский район, Тульская область</p>
         </div>
 
-        <div className="fade-in-up delay-500 mt-10 text-center">
-          <p className="serif font-light" style={{ fontSize: "clamp(2rem, 6vw, 3.5rem)", color: "var(--wine)" }}>26 августа 2026</p>
-          <p className="handwriting text-base mt-2 opacity-60">Заокский район, Тульская область</p>
-        </div>
-
-        <div className="fade-in-up delay-700 mt-16 flex flex-col items-center gap-2">
+        <div className="fade-in-up delay-700 mt-10 flex flex-col items-center gap-2">
           <p className="serif-sc text-xs tracking-widest opacity-50">ЛИСТАЙТЕ ВНИЗ</p>
           <div className="bounce-slow" style={{ color: "var(--wine)" }}>
             <Icon name="ChevronDown" size={20} />
           </div>
         </div>
-
-        <div className="absolute top-12 right-8 handwriting text-5xl opacity-10 select-none" style={{ color: "var(--wine)", transform: "rotate(15deg)" }}>♥</div>
-        <div className="absolute bottom-20 left-6 handwriting text-4xl opacity-10 select-none" style={{ color: "var(--wine)", transform: "rotate(-10deg)" }}>✦</div>
       </section>
 
       {/* ── ДАТА ── */}

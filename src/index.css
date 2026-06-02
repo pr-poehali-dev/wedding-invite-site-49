@@ -117,6 +117,19 @@ body::before {
     transform: translateY(8px);
   }
 }
+
+/* Angel sway */
+@keyframes angel-sway {
+  0% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+  100% {
+    transform: rotate(-12deg);
+  }
+}
 .bounce-slow {
   animation: bounce-slow 2s ease-in-out infinite;
 }
