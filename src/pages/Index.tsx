@@ -3,7 +3,7 @@ import Icon from "@/components/ui/icon";
 
 const WEDDING_DATE = new Date("2026-08-26T14:00:00");
 
-const COUPLE_PHOTO = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/files/0d82acde-df53-4901-8567-51433fa0b97b.jpg";
+const COUPLE_PHOTO = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/d0b921d3-db34-4d68-917a-982349ade069.jpg";
 const BRIDE_CHILD = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/files/302d338f-d604-4f42-990b-a0b3d2f7ed4b.jpg";
 const GROOM_CHILD = "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/files/b5ace827-8178-4033-83ce-e52d7012bb22.jpg";
 
@@ -145,6 +145,19 @@ export default function Index() {
   const [wishesSent, setWishesSent] = useState(false);
   const [rsvpSent, setRsvpSent] = useState(false);
   const [rsvp, setRsvp] = useState({ name: "", attending: "", guests: "1", dietary: "", song: "" });
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Фото выезжает вниз: при scrollY=0 торчит на 20px, полностью выезжает к scrollY~320
+  const photoSlot = 280; // высота фото
+  const initialPeek = 20; // сколько видно изначально
+  const eject = Math.min(scrollY * 0.85, photoSlot - initialPeek);
+  const photoTranslateY = -(photoSlot - initialPeek - eject);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--paper)" }}>
@@ -153,14 +166,62 @@ export default function Index() {
       <section className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-6 py-16">
         <div className="fade-in-up text-center mb-8">
           <p className="handwriting text-xl mb-4" style={{ color: "var(--wine)" }}>Это мы ↓</p>
-          <div
-            className="polaroid mx-auto"
-            style={{ transform: "rotate(-1.5deg)", transition: "transform 0.3s" }}
-            onMouseEnter={e => (e.currentTarget.style.transform = "rotate(0deg) scale(1.03)")}
-            onMouseLeave={e => (e.currentTarget.style.transform = "rotate(-1.5deg)")}
-          >
-            <img src={COUPLE_PHOTO} alt="Богдан и Эльвира" style={{ width: 280, height: 280, objectFit: "cover", display: "block" }} />
-            <span className="polaroid-label">Богдан & Эльвира</span>
+
+          {/* Polaroid camera + выезжающее фото */}
+          <div className="relative mx-auto" style={{ width: 280 }}>
+
+            {/* Корпус поляроида */}
+            <div style={{
+              background: "#f2f0ec",
+              borderRadius: "14px 14px 4px 4px",
+              padding: "14px 16px 0 16px",
+              boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.1)",
+              position: "relative",
+              zIndex: 10,
+            }}>
+              {/* Верхняя панель: вспышка + объектив + видоискатель */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10, padding: "0 4px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  {/* Вспышка */}
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", background: "radial-gradient(circle at 35% 35%, #e8e8e8, #aaa)", border: "3px solid #999", boxShadow: "inset 0 1px 4px rgba(255,255,255,0.9), 0 2px 4px rgba(0,0,0,0.2)" }} />
+                  {/* Красная кнопка */}
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", background: "radial-gradient(circle at 40% 35%, #e84455, #aa1122)", boxShadow: "0 2px 6px rgba(0,0,0,0.35)" }} />
+                </div>
+                {/* Объектив */}
+                <div style={{ width: 72, height: 72, borderRadius: "50%", background: "radial-gradient(circle at 35% 30%, #1a3a6b 0%, #050a1a 70%)", border: "5px solid #555", boxShadow: "0 4px 14px rgba(0,0,0,0.55), inset 0 2px 6px rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ width: 44, height: 44, borderRadius: "50%", background: "radial-gradient(circle at 38% 32%, #2a55cc 0%, #020410 80%)", border: "2px solid #333" }} />
+                </div>
+                {/* Видоискатель */}
+                <div style={{ width: 30, height: 22, background: "#1a1a1a", borderRadius: "4px", border: "2px solid #666", boxShadow: "inset 0 1px 3px rgba(0,0,0,0.8)" }} />
+              </div>
+              {/* Лейбл polaroid */}
+              <p style={{ fontFamily: "Georgia, serif", fontSize: "0.65rem", color: "#999", letterSpacing: "0.15em", textAlign: "center", marginBottom: 10, fontStyle: "italic" }}>polaroid</p>
+              {/* Щель выхода */}
+              <div style={{ height: 14, background: "linear-gradient(to bottom, #c8c4bc, #dedad4)", borderTop: "1px solid #bbb", margin: "0 -16px" }} />
+            </div>
+
+            {/* Фото — выезжает из щели вниз при скролле */}
+            <div style={{ overflow: "hidden", position: "relative", zIndex: 5 }}>
+              <div style={{
+                transform: `translateY(${photoTranslateY}px)`,
+                willChange: "transform",
+              }}>
+                <div style={{
+                  background: "#fff",
+                  padding: "8px 8px 44px 8px",
+                  boxShadow: "0 6px 28px rgba(0,0,0,0.18)",
+                  width: 280,
+                  boxSizing: "border-box",
+                }}>
+                  <img
+                    src={COUPLE_PHOTO}
+                    alt="Богдан и Эльвира"
+                    style={{ width: "100%", height: 264, objectFit: "cover", display: "block" }}
+                  />
+                  <span className="polaroid-label handwriting" style={{ fontSize: "1rem" }}>Богдан &amp; Эльвира</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
