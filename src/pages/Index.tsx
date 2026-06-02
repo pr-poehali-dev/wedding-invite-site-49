@@ -138,6 +138,84 @@ const galleryImages = [
   { src: GROOM_CHILD, label: "он" },
 ];
 
+const wishSlides = [
+  "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/31dc767d-b912-448a-bb46-084390c77fde.jpg",
+  "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/99ef0f4f-a3cb-44f5-bfdd-30182fd13a58.jpg",
+  "https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/7ed76682-5d9b-4c74-beba-7d2ba659b79a.jpg",
+];
+
+function WishesSlider() {
+  const [current, setCurrent] = useState(0);
+  const prev = () => setCurrent(i => (i - 1 + wishSlides.length) % wishSlides.length);
+  const next = () => setCurrent(i => (i + 1) % wishSlides.length);
+
+  return (
+    <div className="max-w-lg mx-auto relative">
+      <img
+        key={current}
+        src={wishSlides[current]}
+        alt={`Пожелание ${current + 1}`}
+        style={{ width: "100%", display: "block", transition: "opacity 0.3s" }}
+      />
+      {/* Стрелки */}
+      <button
+        onClick={prev}
+        aria-label="Назад"
+        style={{
+          position: "absolute",
+          left: -20,
+          top: "50%",
+          transform: "translateY(-50%)",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: 8,
+        }}
+      >
+        <svg width="36" height="20" viewBox="0 0 36 20" fill="none">
+          <path d="M34 10 L4 10 M12 2 L2 10 L12 18" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+      <button
+        onClick={next}
+        aria-label="Вперёд"
+        style={{
+          position: "absolute",
+          right: -20,
+          top: "50%",
+          transform: "translateY(-50%)",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: 8,
+        }}
+      >
+        <svg width="36" height="20" viewBox="0 0 36 20" fill="none">
+          <path d="M2 10 L32 10 M24 2 L34 10 L24 18" stroke="#2C3E50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+      {/* Точки-индикаторы */}
+      <div className="flex justify-center gap-2 mt-4">
+        {wishSlides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            style={{
+              width: 8, height: 8,
+              borderRadius: "50%",
+              background: i === current ? "var(--wine)" : "rgba(139,26,46,0.25)",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              transition: "background 0.2s",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Index() {
   const countdown = useCountdown(WEDDING_DATE);
   const [wishes, setWishes] = useState("");
@@ -517,36 +595,7 @@ export default function Index() {
       <section className="py-12 px-6" id="wishes">
         <Section>
           <Ornament />
-          <div className="max-w-lg mx-auto">
-            <p className="handwriting text-center text-xl mb-3" style={{ color: "var(--wine)" }}>Скажите нам что-то тёплое</p>
-            <h2 className="serif text-center text-3xl font-light mb-8">Пожелания</h2>
-            {wishesSent ? (
-              <div className="text-center py-8">
-                <p className="text-4xl mb-4">💌</p>
-                <p className="serif text-lg">Спасибо! Ваши слова согреют нам сердце.</p>
-              </div>
-            ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setWishesSent(true); }} className="flex flex-col gap-4">
-                <input
-                  className="wedding-input"
-                  placeholder="Ваше имя"
-                  value={wishName}
-                  onChange={e => setWishName(e.target.value)}
-                  required
-                />
-                <textarea
-                  className="wedding-input"
-                  placeholder="Ваши пожелания молодожёнам..."
-                  rows={4}
-                  value={wishes}
-                  onChange={e => setWishes(e.target.value)}
-                  required
-                  style={{ resize: "vertical" }}
-                />
-                <button type="submit" className="wedding-btn">Отправить пожелание</button>
-              </form>
-            )}
-          </div>
+          <WishesSlider />
         </Section>
       </section>
 
