@@ -360,7 +360,7 @@ export default function Index() {
                 onMouseLeave={e => (e.currentTarget.style.transform = "rotate(-4deg)")}
               >
                 <div style={{ background: "#fff", padding: "8px 8px 20px 8px", boxShadow: "0 4px 22px rgba(0,0,0,0.15)", width: 210 }}>
-                  <img src={BRIDE_CHILD} alt="Маленькая Эльвира" style={{ width: "100%", height: 250, objectFit: "cover", objectPosition: "top", display: "block" }} />
+                  <img src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/105ebe81-ba7d-4376-b252-7d18e8fdd101.jpg" alt="Маленькая Эльвира" style={{ width: "100%", height: 250, objectFit: "cover", objectPosition: "top", display: "block" }} />
                 </div>
               </div>
 
