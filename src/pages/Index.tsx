@@ -393,23 +393,69 @@ export default function Index() {
       <section className="py-12 px-6" id="venue">
         <Section>
           <Ornament />
-          <div className="max-w-lg mx-auto text-center">
-            <p className="handwriting text-xl mb-3" style={{ color: "var(--wine)" }}>Где это будет</p>
-            <h2 className="serif text-3xl font-light mb-6">Место проведения</h2>
-            <div className="bg-white p-8 shadow-md" style={{ border: "1px solid rgba(139,26,46,0.1)" }}>
-              <div className="flex justify-center mb-4">
-                <Icon name="MapPin" size={28} style={{ color: "var(--wine)" } as React.CSSProperties} />
+          <div className="max-w-lg mx-auto">
+            {/* Заголовок — рукописный */}
+            <h2 className="handwriting text-center mb-6" style={{ fontSize: "clamp(2.4rem, 8vw, 4rem)", color: "var(--ink)", lineHeight: 1.1 }}>
+              Место проведения
+            </h2>
+
+            {/* Адрес — печатная машинка */}
+            <p className="text-center mb-8" style={{
+              fontFamily: "'Courier New', Courier, monospace",
+              fontSize: "clamp(0.78rem, 2.2vw, 0.95rem)",
+              color: "var(--ink)",
+              lineHeight: 1.9,
+              opacity: 0.85,
+            }}>
+              Курорт Заокские Поля<br />
+              Ресторан «Трапезная»<br />
+              Тульская область, Заокский район,<br />
+              муниципальное образование Малаховское
+            </p>
+
+            {/* Фото места */}
+            <div style={{ position: "relative", marginBottom: 8 }}>
+              <img
+                src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/7ea6b24d-0b24-479e-9a02-688b001513ce.jpg"
+                alt="Курорт Заокские поля"
+                style={{ width: "100%", height: 220, objectFit: "cover", display: "block" }}
+              />
+              {/* Надпись поверх фото */}
+              <div style={{ position: "absolute", bottom: -16, left: 16, zIndex: 10 }}>
+                <p className="handwriting" style={{ fontSize: "1.6rem", color: "var(--wine)", transform: "rotate(-3deg)" }}>
+                  Вы приглашены
+                </p>
+                {/* Стрелка */}
+                <svg width="52" height="38" viewBox="0 0 52 38" fill="none" style={{ marginLeft: 30, marginTop: -4 }}>
+                  <path d="M4 8 Q16 28 36 30 Q44 31 48 34" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+                  <path d="M42 30 L48 34 L44 38" stroke="#8B1A2E" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </div>
-              <p className="serif text-xl font-semibold mb-1">Курорт «Заокские поля»</p>
-              <p className="serif text-lg italic mb-4" style={{ color: "var(--wine)" }}>Ресторан «Трапезная»</p>
-              <p className="serif text-base opacity-70 leading-relaxed">
-                Тульская область, Заокский район,<br />
-                муниципальное образование Малаховское
-              </p>
-              <div className="mt-6 pt-6" style={{ borderTop: "1px solid rgba(139,26,46,0.1)" }}>
-                <p className="serif-sc text-xs tracking-widest opacity-50 mb-3">КАК ДОБРАТЬСЯ</p>
-                <p className="serif text-sm opacity-60">~120 км от Москвы по Симферопольскому шоссе</p>
-              </div>
+            </div>
+
+            {/* Кнопка "Как добраться" */}
+            <div className="mt-12">
+              <a
+                href="https://yandex.ru/maps/?text=Курорт+Заокские+Поля+Тульская+область+Заокский+район"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "block",
+                  background: "var(--wine)",
+                  color: "#fff",
+                  textAlign: "center",
+                  padding: "18px 24px",
+                  fontFamily: "'Courier New', Courier, monospace",
+                  fontSize: "0.9rem",
+                  letterSpacing: "0.18em",
+                  textDecoration: "none",
+                  transition: "background 0.2s, transform 0.1s",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#6B1222")}
+                onMouseLeave={e => (e.currentTarget.style.background = "var(--wine)")}
+              >
+                КАК ДОБРАТЬСЯ
+              </a>
             </div>
           </div>
         </Section>
