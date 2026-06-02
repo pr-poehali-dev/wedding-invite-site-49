@@ -467,7 +467,7 @@ export default function Index() {
           <Ornament />
           <div className="max-w-lg mx-auto">
             <img
-              src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/fe80f1a8-ca73-4dd2-aa70-08cb3cc69c7d.jpg"
+              src="https://cdn.poehali.dev/projects/166d446d-8a02-41d9-8496-f23587488617/bucket/b6a70792-6694-4727-9068-1a989b21b507.jpg"
               alt="Тайминг торжества"
               style={{ width: "100%", display: "block" }}
             />
